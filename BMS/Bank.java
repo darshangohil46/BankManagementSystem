@@ -17,7 +17,8 @@ public class Bank extends Thread {
                     .println("1. Open Bank Application\n2. Open Account In Bank\n3. Remove Account From Bank\n0. Exit");
             System.out.println("**************************************");
             System.out.print("Enter Choice: ");
-            String choice = sc.nextLine();
+            String choice = sc.next();
+            sc.nextLine();
             String c = choice.trim();
             if (c.equals("1")) {
                 bank_app();
@@ -148,10 +149,11 @@ public class Bank extends Thread {
             // data insertion in tabel bank_app
             String type = "";
             Statement st = con.createStatement();
-            ResultSet rs = st.executeQuery("select account_num, type from all_accounts");
+            ResultSet rs = st.executeQuery("select account_num, type, balance from all_accounts");
             while (rs.next()) {
                 String table_accountNum = rs.getString("account_num");
                 type = rs.getString("type");
+                balance = rs.getLong("balance");
                 if (table_accountNum.equalsIgnoreCase(accountNum)) {
                     i = 1;
                 }
@@ -164,7 +166,7 @@ public class Bank extends Thread {
                 ps.setString(2, accountNum);
                 ps.setString(3, phoneNum);
                 ps.setString(4, pin);
-                ps.setLong(5, Customer.balance);
+                ps.setLong(5, balance);
                 ps.setString(6, type);
                 int x = ps.executeUpdate();
                 if (x > 0) {
@@ -211,32 +213,7 @@ public class Bank extends Thread {
         if (!b) {
             System.out.println("First, You check you are is resister on this app or not?");
             System.out.println("Login Fail.");
-        }
-        onlineMoneTransfer();
-    }
-
-    private static void onlineMoneTransfer() throws Exception {
-        while (true) {
-            System.out.print("Do You Want To Transfer Money Online? (Yes/NO) ");
-            String input_yes_no = sc.nextLine();
-            if (input_yes_no.equalsIgnoreCase("yes")) {
-                if (balance > 0) {
-                    System.out.print("Enter Money You Want To Transfer: ");
-                    long transferMoney = sc.nextLong();
-                    if (transferMoney < balance) {
-                        Customer.withdrawMoney();
-                    } else {
-                        System.out.println("Insufficient Money In Account");
-                        System.out.println("Your Balance Is: " + balance);
-                    }
-                } else {
-                    System.out.println("Your Balance: " + balance);
-                }
-            } else if (input_yes_no.equalsIgnoreCase("no")) {
-                break;
-            } else {
-                System.out.println("Enter (Yes/No)");
-            }
+            return;
         }
     }
 
