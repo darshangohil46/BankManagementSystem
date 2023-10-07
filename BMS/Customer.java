@@ -52,13 +52,17 @@ public class Customer {
                 System.out.println("**************************************");
                 System.out.print("Enter Choice: ");
                 String choice = sc.next();
+                sc.nextLine();
                 String c = choice.trim();
                 if (c.equals("1")) {
                     withdrawMoney();
+                    x = false;
                 } else if (c.equals("2")) {
                     depositeMoney();
+                    x = false;
                 } else if (c.equals("3")) {
                     Passbook.printPassbook();
+                    x = false;
                 } else if (c.equals("0")) {
                     x = false;
                 } else {
