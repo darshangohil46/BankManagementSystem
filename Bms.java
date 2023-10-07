@@ -14,7 +14,8 @@ import BMS.*;
 // acc_no varchar(20));
 
 // create table loan(id SERIAL PRIMARY KEY, name VARCHAR(30), phone VARCHAR(30),
-// address VARCHAR(30), bank_details VARCHAR(300), amount BIGINT, loan_id BIGINT);
+// address VARCHAR(30), bank_details VARCHAR(300), amount BIGINT, type VARCHAR(200), loan_id BIGINT, emi VARCHAR(50));
+
 
 public class Bms {
     static Connection con;
