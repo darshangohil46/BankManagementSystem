@@ -55,6 +55,7 @@ public class Loan extends Thread {
                 System.out.println("Address: " + rs.getString("address"));
                 System.out.println("Loan Amount: " + rs.getLong("amount"));
                 System.out.println("Bank Details\n" + rs.getString("bank_details"));
+                System.out.println("EMI: " + rs.getString("emi"));
                 return;
             }
         }
@@ -92,6 +93,7 @@ public class Loan extends Thread {
     private static void carLoan() throws Exception {
         boolean b = check_other_loan();
         while (b) {
+            System.out.println("Car Loan Rate: 7.50%");
             System.out.print("Enter Your Address: ");
             String address = sc.nextLine();
             System.out.print("Enter Your Bank Account Number: ");
@@ -100,13 +102,22 @@ public class Loan extends Thread {
             String bankName = sc.nextLine();
             System.out.print("Enter Your Bank Branch: ");
             String branch = sc.nextLine();
+
+            System.out.print("Enter Loan Amount: ");
+            long loanAmount = sc.nextLong();
+
+            System.out.print("Enter the loan tenure in months: ");
+            int months = sc.nextInt();
+
+            double emi = EMICalculator((double) loanAmount, 7.50, months);
+            System.out.println("Your EMI is: " + emi);
+
             System.out.print("Do You Continue For Loan? (Yes/No) ");
-            String input_yes_no = sc.nextLine();
+            String input_yes_no = sc.next();
+            sc.nextLine();
             String bank_data = "Bank Name: " + bankName + "Account no.: \n" + accNum + "Branch: \n" + branch + "\n";
             if (input_yes_no.equalsIgnoreCase("yes")) {
                 while (true) {
-                    System.out.print("Enter Loan Amount: ");
-                    long loanAmount = sc.nextLong();
                     if (loanAmount <= 1000000 && loanAmount > 0) {
                         String sql = "insert into loan(name, phone, address, bank_details, amount, type, loan_id) values (?,?,?,?,?,?,?)";
                         PreparedStatement ps = con.prepareStatement(sql);
@@ -118,6 +129,7 @@ public class Loan extends Thread {
                         ps.setString(6, "Car Loan");
                         long loan_id = (long) (Math.random() * 100000000);
                         ps.setLong(7, loan_id);
+                        ps.setString(8, emi + "\nMonths: " + months);
                         int x = ps.executeUpdate();
                         if (x > 0) {
                             System.out.println("Loan Process Done");
@@ -144,6 +156,7 @@ public class Loan extends Thread {
     private static void homeLoan() throws Exception {
         boolean b = check_other_loan();
         while (b) {
+            System.out.println("Rate: 8.50%");
             System.out.print("Enter Your Address: ");
             String address = sc.nextLine();
             System.out.print("Enter Your Bank Account Number: ");
@@ -152,16 +165,25 @@ public class Loan extends Thread {
             String bankName = sc.nextLine();
             System.out.print("Enter Your Bank Branch: ");
             String branch = sc.nextLine();
+            
+            System.out.print("Enter Loan Amount: ");
+            long loanAmount = sc.nextLong();
+
+            System.out.print("Enter the loan tenure in months: ");
+            int months = sc.nextInt();
+
+            double emi = EMICalculator((double) loanAmount, 8.50, months);
+            System.out.println("Your EMI is: " + emi);
+
             System.out.print("Do You Continue For Loan? (Yes/No) ");
-            String input_yes_no = sc.nextLine();
+            String input_yes_no = sc.next();
+            sc.nextLine();
             String bank_data = "Bank Name: " + bankName + "Account no.: \n" + accNum + "Branch: \n" + branch + "\n";
 
             if (input_yes_no.equalsIgnoreCase("yes")) {
                 System.out.println("Give The Address Of The House Where You Want To Take Home Loan.");
                 String loan_address = sc.nextLine();
                 while (true) {
-                    System.out.print("Enter Loan Amount: ");
-                    long loanAmount = sc.nextLong();
                     if (loanAmount <= 5000000 && loanAmount > 0) {
                         String sql = "insert into loan(name, phone, address, bank_details, amount, type, loan_id) values (?,?,?,?,?,?,?)";
                         PreparedStatement ps = con.prepareStatement(sql);
@@ -173,6 +195,7 @@ public class Loan extends Thread {
                         ps.setString(6, "Home Loan\nAddress: " + loan_address);
                         long loan_id = (long) (Math.random() * 100000000);
                         ps.setLong(7, loan_id);
+                        ps.setString(8, emi + "\nMonths: " + months);
                         int x = ps.executeUpdate();
                         if (x > 0) {
                             System.out.println("Loan Process Done");
@@ -199,6 +222,7 @@ public class Loan extends Thread {
     private static void educationLoan() throws Exception {
         boolean b = check_other_loan();
         while (b) {
+            System.out.println("Eduaction Loan Rate: 9.00%");
             System.out.print("Enter Your Address: ");
             String address = sc.nextLine();
             System.out.print("Enter Your Bank Account Number: ");
@@ -207,8 +231,19 @@ public class Loan extends Thread {
             String bankName = sc.nextLine();
             System.out.print("Enter Your Bank Branch: ");
             String branch = sc.nextLine();
+            
+            System.out.print("Enter Loan Amount: ");
+            long loanAmount = sc.nextLong();
+
+            System.out.print("Enter the loan tenure in months: ");
+            int months = sc.nextInt();
+
+            double emi = EMICalculator((double) loanAmount, 9.00, months);
+            System.out.println("Your EMI is: " + emi);
+
             System.out.print("Do You Continue For Loan? (Yes/No) ");
-            String input_yes_no = sc.nextLine();
+            String input_yes_no = sc.next();
+            sc.nextLine();
             String bank_data = "Bank Name: " + bankName + "Account no.: \n" + accNum + "Branch: \n" + branch + "\n";
 
             if (input_yes_no.equalsIgnoreCase("yes")) {
@@ -217,8 +252,6 @@ public class Loan extends Thread {
                 System.out.print("Enter University Name: ");
                 String university = sc.nextLine();
                 while (true) {
-                    System.out.print("Enter Loan Amount: ");
-                    long loanAmount = sc.nextLong();
                     if (loanAmount <= 5000000 && loanAmount > 0) {
                         String sql = "insert into loan(name, phone, address, bank_details, amount, type, loan_id) values (?,?,?,?,?,?,?)";
                         PreparedStatement ps = con.prepareStatement(sql);
@@ -230,6 +263,7 @@ public class Loan extends Thread {
                         ps.setString(6, "Education Loan\ncCountry: " + country + "\nUniversity: " + university);
                         long loan_id = (long) (Math.random() * 100000000);
                         ps.setLong(7, loan_id);
+                        ps.setString(8, emi + "\nMonths: " + months);
                         int x = ps.executeUpdate();
                         if (x > 0) {
                             System.out.println("Loan Process Done");
@@ -251,5 +285,12 @@ public class Loan extends Thread {
             }
         }
         System.out.println("First! You Complete Your Previous Loan...");
+    }
+
+    private static double EMICalculator(double principal, double rate, int months) {
+    double monthlyInterestRate = rate / 100 / 12;
+    double emi = (principal * monthlyInterestRate * Math.pow(1 + monthlyInterestRate, months))
+            / (Math.pow(1 + monthlyInterestRate, months) - 1);
+    return emi;
     }
 }
